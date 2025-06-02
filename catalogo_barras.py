@@ -14,12 +14,22 @@ writer_options = {
     'dpi': 300
 }
 
-# Cargar el archivo Excel
+# Función para cargar datos según el tipo
 @st.cache_data
-def cargar_datos():
-    return pd.read_excel("productos_sin_terminar_resumidos.xlsx")
+def cargar_datos(tipo):
+    if tipo == "Producto Terminado":
+        return pd.read_excel("Productos_barras.xlsx")
+    else:
+        return pd.read_excel("productos_sin_terminar_resumidos.xlsx")
 
-df = cargar_datos()
+# Selector para tipo de producto
+tipo_producto = st.radio(
+    "Seleccione el tipo de producto:",
+    ("Producto Terminado", "Producto Sin Terminar")
+)
+
+# Cargar datos según selección
+df = cargar_datos(tipo_producto)
 
 # Título
 st.title("📦 Buscador de Códigos de Barras")
@@ -50,19 +60,15 @@ if not resultados.empty:
         barcode_obj = code128(codigo, writer=ImageWriter())
         barcode_obj.write(buffer, options=writer_options)
         buffer.seek(0)
-        # ... (todo igual hasta la parte de mostrar la imagen)
 
         st.image(
             Image.open(buffer),
             caption="📸 Código de barras generado",
-            use_container_width=False,  # ya no use_column_width
-            width=300  # tamaño ancho máximo deseado (ajústalo a tu gusto)
+            use_container_width=False,
+            width=300
         )
     except Exception as e:
         st.error(f"❌ Error al generar el código de barras: {e}")
 
 else:
     st.info("Escribe al menos una palabra del nombre del producto.")
-
-
-#python -m streamlit run c:/Users/sacor/Downloads/catalogo_barras.py
