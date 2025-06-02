@@ -17,7 +17,7 @@ writer_options = {
 # Cargar el archivo Excel
 @st.cache_data
 def cargar_datos():
-    return pd.read_excel("c:/Users/sacor/Downloads/productos_sin_terminar_resumidos.xlsx")
+    return pd.read_excel("productos_sin_terminar_resumidos.xlsx")
 
 df = cargar_datos()
 
