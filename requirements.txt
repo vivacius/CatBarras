@@ -1,0 +1,9 @@
+streamlit 
+pandas
+barcode
+barcode.writer
+ImageWriter
+io 
+BytesIO
+PIL
+Image
